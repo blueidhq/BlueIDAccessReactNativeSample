@@ -10,8 +10,8 @@
     "test": "jest"
   },
   "dependencies": {
-    "@blueid/access-proto": "^0.71.0",
-    "@blueid/access-react-native": "^0.71.0",
+    "@blueid/access-proto": "^0.72.0",
+    "@blueid/access-react-native": "^0.72.0",
     "@react-navigation/bottom-tabs": "^6.5.12",
     "@react-navigation/native": "^6.1.10",
     "react": "18.2.0",
