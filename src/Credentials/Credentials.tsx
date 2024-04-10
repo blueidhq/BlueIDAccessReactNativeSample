@@ -58,6 +58,7 @@ function Credentials(): React.JSX.Element {
             [`${BlueCredentialType.Master}`]: 'Master',
             [`${BlueCredentialType.NfcWriter}`]: 'NfcWriter',
             [`${BlueCredentialType.Maintenance}`]: 'Maintenance',
+            [`${BlueCredentialType.Emergency}`]: 'Emergency',
         }
 
         return (
@@ -100,7 +101,7 @@ function Credentials(): React.JSX.Element {
                 data={credentials}
                 renderItem={renderItem}
                 ListHeaderComponent={ListHeader}
-                ListEmptyComponent={<Text>No credential found</Text>}
+                ListEmptyComponent={<Text>No credentials found</Text>}
                 // eslint-disable-next-line react/no-unstable-nested-components
                 ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
             />
