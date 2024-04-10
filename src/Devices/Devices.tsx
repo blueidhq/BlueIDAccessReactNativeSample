@@ -1,19 +1,20 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Alert, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, StyleSheet, Text, View } from 'react-native'
 
-import { BlueAccessDevice } from '@blueid/access-proto'
-import { BlueIDAccess } from '@blueid/access-react-native'
+import { BlueAccessDevice, BlueDeviceInfo } from '@blueid/access-proto'
+import { BlueAccessListener, BlueIDAccess } from '@blueid/access-react-native'
 
-function ListHeader(): React.JSX.Element {
-    return <Text style={styles.title}>Devices</Text>
-}
+import DeviceItem from './DeviceItem'
 
 function Devices(): React.JSX.Element {
-    const [devices, setDevices] = useState([])
+    const [allDevices, setAllDevices] = useState<BlueAccessDevice[]>([])
+    const [nearbyDevices, setNearbyDevices] = useState<BlueDeviceInfo[]>([])
 
     const updateDevices = useCallback(async () => {
+        // Update all devies with all devices the user has access to based on credentials
+        // these devices might not be nearby at the moment
         const result = await BlueIDAccess.runCommand('listAccessDevices')
-        setDevices(result.devices)
+        setAllDevices(result.devices)
     }, [])
 
     const startBluetoothScan = useCallback(async () => {
@@ -22,61 +23,76 @@ function Devices(): React.JSX.Element {
         }
     }, [])
 
+    const handleDeviceAddedOrUpdated = useCallback(
+        (deviceInfo: BlueDeviceInfo) => {
+            const deviceIndex = nearbyDevices.findIndex(device => device.deviceId === deviceInfo.deviceId)
+            if (deviceIndex >= 0) {
+                setNearbyDevices(nearbyDevices.splice(deviceIndex, 1, deviceInfo))
+            } else {
+                setNearbyDevices(nearbyDevices.concat([deviceInfo]))
+            }
+        },
+        [nearbyDevices],
+    )
+
+    const handleDeviceRemoved = useCallback(
+        (deviceInfo: BlueDeviceInfo) => {
+            setNearbyDevices(nearbyDevices.filter(device => device.deviceId !== deviceInfo.deviceId))
+        },
+        [nearbyDevices],
+    )
+
     useEffect(() => {
         updateDevices()
         startBluetoothScan()
 
-        const syncStartedListener = BlueIDAccess.addListener('tokenSyncStarted', () => updateDevices())
+        const listeners: Promise<BlueAccessListener>[] = []
+
         const syncFinishedListener = BlueIDAccess.addListener('tokenSyncFinished', () => updateDevices())
-        const accessCredentialAddedLListener = BlueIDAccess.addListener('accessCredentialAdded', () =>
+        const accessCredentialAddedListener = BlueIDAccess.addListener('accessCredentialAdded', () =>
             updateDevices(),
+        )
+        const deviceAddedListener = BlueIDAccess.addListener('deviceAdded', deviceInfo => {
+            handleDeviceAddedOrUpdated(deviceInfo)
+        })
+        const deviceUpdatedListener = BlueIDAccess.addListener('deviceUpdated', deviceInfo => {
+            handleDeviceAddedOrUpdated(deviceInfo)
+        })
+        const deviceRemovedListener = BlueIDAccess.addListener('deviceRemoved', deviceInfo => {
+            handleDeviceRemoved(deviceInfo)
+        })
+
+        listeners.push(
+            syncFinishedListener,
+            accessCredentialAddedListener,
+            deviceAddedListener,
+            deviceUpdatedListener,
+            deviceRemovedListener,
         )
 
         return () => {
-            // eslint-disable-next-line no-extra-semi
-            ;[syncStartedListener, syncFinishedListener, accessCredentialAddedLListener].map(async listener =>
-                (await listener).remove(),
-            )
+            listeners.map(async listener => (await listener).remove())
         }
 
         // Runs only on mount
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    const tryOpenLock = useCallback(async (device: BlueAccessDevice) => {
-        try {
-            await BlueIDAccess.runCommand('tryAccessDevice', device.deviceId)
-        } catch (e: any) {
-            Alert.alert('Failed', e.message, [{ text: 'OK' }])
-        }
-    }, [])
-
-    const renderItem = useCallback(
-        ({ item }: { item: BlueAccessDevice }) => {
-            return (
-                <TouchableOpacity onPress={() => tryOpenLock(item)}>
-                    <View style={styles.listItem}>
-                        <Text style={styles.listItemId}>ID: {item.deviceId}</Text>
-                        <Text>Object: {item.objectName}</Text>
-                    </View>
-                </TouchableOpacity>
-            )
-        },
-        [tryOpenLock],
-    )
-
     return (
         <View style={styles.root}>
             <FlatList
-                data={devices}
-                renderItem={renderItem}
-                ListHeaderComponent={ListHeader}
-                ListEmptyComponent={<Text>No device found</Text>}
+                data={nearbyDevices}
+                renderItem={({ item }) => <DeviceItem allDevices={allDevices} nearbyDevice={item} />}
+                ListHeaderComponent={<Text style={styles.title}>Nearby Devices</Text>}
                 // eslint-disable-next-line react/no-unstable-nested-components
                 ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
             />
-            {devices.length > 0 && (
-                <Text style={styles.bottomMessage}>Click on any device to try open it.</Text>
+            {nearbyDevices.length > 0 && (
+                <Text style={styles.bottomMessage}>
+                    {nearbyDevices.length
+                        ? 'Click on any device to try to open it'
+                        : 'No nearby devices found'}
+                </Text>
             )}
         </View>
     )
@@ -90,14 +106,6 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: '600',
         marginBottom: 16,
-    },
-    listItem: {
-        backgroundColor: '#FFF',
-        padding: 12,
-        borderRadius: 8,
-    },
-    listItemId: {
-        fontWeight: '600',
     },
     bottomMessage: {
         marginTop: 16,

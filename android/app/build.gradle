@@ -74,9 +74,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.blueidaccessrnsample"
+    namespace "com.example.blueid.reactnative"
     defaultConfig {
-        applicationId "com.blueidaccessrnsample"
+        applicationId "com.example.blueid.reactnative"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

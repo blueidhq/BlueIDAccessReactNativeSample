@@ -4,9 +4,6 @@ module.exports = {
     rules: {
         indent: ['error', 4, { ignoreComments: true, SwitchCase: 1 }],
         semi: ['error', 'never'],
-        'max-len': [
-            'error',
-            { code: 110, tabWidth: 4, ignoreTemplateLiterals: true },
-        ],
+        'max-len': ['error', { code: 110, tabWidth: 4, ignoreTemplateLiterals: true }],
     },
 }

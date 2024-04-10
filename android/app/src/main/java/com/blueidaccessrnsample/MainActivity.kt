@@ -1,4 +1,4 @@
-package com.blueidaccessrnsample
+package com.example.blueid.reactnative
 
 import android.os.Bundle;
 import com.facebook.react.ReactActivity

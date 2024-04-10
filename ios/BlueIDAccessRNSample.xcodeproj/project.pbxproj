@@ -493,7 +493,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.blueid.sampleRN;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.blueid.reactnative;
 				PRODUCT_NAME = BlueIDAccessRNSample;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -529,7 +529,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.blueid.sampleRN;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.blueid.reactnative;
 				PRODUCT_NAME = BlueIDAccessRNSample;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

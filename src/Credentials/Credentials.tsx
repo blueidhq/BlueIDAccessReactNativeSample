@@ -37,7 +37,6 @@ function Credentials(): React.JSX.Element {
     useEffect(() => {
         loadCredentials()
 
-        const syncStartedListener = BlueIDAccess.addListener('tokenSyncStarted', () => loadCredentials())
         const syncFinishedListener = BlueIDAccess.addListener('tokenSyncFinished', () => loadCredentials())
         const accessCredentialAddedLListener = BlueIDAccess.addListener('accessCredentialAdded', () =>
             loadCredentials(),
@@ -45,7 +44,7 @@ function Credentials(): React.JSX.Element {
 
         return () => {
             // eslint-disable-next-line no-extra-semi
-            ;[syncStartedListener, syncFinishedListener, accessCredentialAddedLListener].map(async listener =>
+            ;[syncFinishedListener, accessCredentialAddedLListener].map(async listener =>
                 (await listener).remove(),
             )
         }
@@ -77,8 +76,9 @@ function Credentials(): React.JSX.Element {
     const handleClaim = useCallback(async () => {
         try {
             await BlueIDAccess.runCommand('claimAccessCredential', activationToken)
-            Alert.alert('Success', 'Credential claimed', [{ text: 'OK' }])
             loadCredentials()
+            setActivationToken('')
+            Alert.alert('Success', 'Credential claimed', [{ text: 'OK' }])
         } catch (e: any) {
             Alert.alert('Failed', e.message, [{ text: 'OK' }])
         }
