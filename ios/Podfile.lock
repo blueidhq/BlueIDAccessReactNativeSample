@@ -1,5 +1,5 @@
 PODS:
-  - blueid-access-react-native (1.16.0):
+  - blueid-access-react-native (1.24.0):
     - glog
     - iOSDFULibrary (= 4.15.0)
     - RCT-Folly (= 2022.05.16.00)
@@ -1243,7 +1243,7 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  blueid-access-react-native: ca7fc436836bc1dde80e88b05acd8fb5ec25089c
+  blueid-access-react-native: 3fe355f7cd34954c66ec2cf936894049cd02d769
   boost: d3f49c53809116a5d38da093a8aa78bf551aed09
   DoubleConversion: fea03f2699887d960129cc54bba7e52542b6f953
   FBLazyVector: 84f6edbe225f38aebd9deaf1540a4160b1f087d7
@@ -1303,4 +1303,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 44efb19b39c906083d879e28966a8a709b499d30
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.14.3
