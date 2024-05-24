@@ -17,9 +17,9 @@ function Devices(): React.JSX.Element {
         setAllDevices(result.devices)
     }, [])
 
-    const startBluetoothScan = useCallback(async () => {
-        if (!(await BlueIDAccess.runCommand('isBluetoothActive'))) {
-            await BlueIDAccess.runCommand('bluetoothActivate')
+    const startScan = useCallback(async () => {
+        if (!(await BlueIDAccess.runCommand('isScanningActive'))) {
+            await BlueIDAccess.runCommand('startScanning')
         }
     }, [])
 
@@ -44,7 +44,7 @@ function Devices(): React.JSX.Element {
 
     useEffect(() => {
         updateDevices()
-        startBluetoothScan()
+        startScan()
 
         const listeners: Promise<BlueAccessListener>[] = []
 
