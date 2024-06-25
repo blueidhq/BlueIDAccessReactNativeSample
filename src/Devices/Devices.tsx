@@ -18,6 +18,14 @@ function Devices(): React.JSX.Element {
     }, [])
 
     const startScan = useCallback(async () => {
+        const permissionStatus = await BlueIDAccess.runCommand('checkBluetoothPermission')
+
+        if (permissionStatus !== 'granted') {
+            // eslint-disable-next-line no-alert
+            alert('Bluetooth permission not granted. Grant it and open the app again.')
+            return
+        }
+
         if (!(await BlueIDAccess.runCommand('isScanningActive'))) {
             await BlueIDAccess.runCommand('startScanning')
         }
