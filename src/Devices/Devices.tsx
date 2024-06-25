@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { FlatList, StyleSheet, Text, View } from 'react-native'
+import { Alert, FlatList, StyleSheet, Text, View } from 'react-native'
 
 import { BlueAccessDevice, BlueDeviceInfo } from '@blueid/access-proto'
 import { BlueAccessListener, BlueIDAccess } from '@blueid/access-react-native'
@@ -21,8 +21,11 @@ function Devices(): React.JSX.Element {
         const permissionStatus = await BlueIDAccess.runCommand('checkBluetoothPermission')
 
         if (permissionStatus !== 'granted') {
-            // eslint-disable-next-line no-alert
-            alert('Bluetooth permission not granted. Grant it and open the app again.')
+            Alert.alert(
+                'Bluetooth permission not granted',
+                'Bluetooth permission not granted. Grant it and open the app again.',
+                [{ text: 'OK' }],
+            )
             return
         }
 
