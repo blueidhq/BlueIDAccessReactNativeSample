@@ -1,12 +1,12 @@
 PODS:
-  - blueid-access-react-native (1.39.0):
-    - BlueIDAccessSDK (= 1.39.0)
+  - blueid-access-react-native (1.72.0):
+    - BlueIDAccessSDK (= 1.72.0)
     - glog
     - iOSDFULibrary (= 4.15.0)
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
     - SwiftProtobuf (= 1.24.0)
-  - BlueIDAccessSDK (1.39.0):
+  - BlueIDAccessSDK (1.72.0):
     - iOSDFULibrary (= 4.15.0)
     - SwiftProtobuf (= 1.24.0)
   - boost (1.83.0)
