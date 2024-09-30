@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { FlatList, StyleSheet, Text, View } from 'react-native'
+import { Alert, FlatList, StyleSheet, Text, View } from 'react-native'
 
 import { BlueAccessDevice, BlueDeviceInfo } from '@blueid/access-proto'
 import { BlueAccessListener, BlueIDAccess } from '@blueid/access-react-native'
@@ -18,6 +18,17 @@ function Devices(): React.JSX.Element {
     }, [])
 
     const startScan = useCallback(async () => {
+        const permissionStatus = await BlueIDAccess.runCommand('checkBluetoothPermission')
+
+        if (permissionStatus !== 'granted') {
+            Alert.alert(
+                'Bluetooth permission not granted',
+                'Bluetooth permission not granted. Grant it and open the app again.',
+                [{ text: 'OK' }],
+            )
+            return
+        }
+
         if (!(await BlueIDAccess.runCommand('isScanningActive'))) {
             await BlueIDAccess.runCommand('startScanning')
         }
