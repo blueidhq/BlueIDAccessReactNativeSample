@@ -13,20 +13,28 @@ function Devices(): React.JSX.Element {
     const updateDevices = useCallback(async () => {
         // Update all devies with all devices the user has access to based on credentials
         // these devices might not be nearby at the moment
-        const result = await BlueIDAccess.runCommand('listAccessDevices')
-        setAllDevices(result.devices)
+        const { identities } = await BlueIDAccess.runCommand('getIdentities')
+
+        const identityId = identities[0]?.identityId
+        if (identityId) {
+            const result = await BlueIDAccess.runCommand('listAccessDevices', identityId)
+
+            setAllDevices(result.devices)
+        }
     }, [])
 
     const startScan = useCallback(async () => {
         const permissionStatus = await BlueIDAccess.runCommand('checkBluetoothPermission')
 
-        if (permissionStatus !== 'granted') {
-            Alert.alert(
-                'Bluetooth permission not granted',
-                'Bluetooth permission not granted. Grant it and open the app again.',
-                [{ text: 'OK' }],
-            )
-            return
+        if (permissionStatus !== 'notDetermined') {
+            if (permissionStatus !== 'granted') {
+                Alert.alert(
+                    'Bluetooth permission not granted',
+                    'Bluetooth permission not granted. Grant it and open the app again.',
+                    [{ text: 'OK' }],
+                )
+                return
+            }
         }
 
         if (!(await BlueIDAccess.runCommand('isScanningActive'))) {

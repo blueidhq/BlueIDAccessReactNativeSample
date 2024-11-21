@@ -1,8 +1,8 @@
 import React, { useCallback, useMemo } from 'react'
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
-import { BlueAccessDevice, BlueDeviceInfo } from '@blueid/access-proto'
-import { BlueIDAccess } from '@blueid/access-react-native'
+import { BlueAccessDevice, BlueDeviceInfo, BlueIdentitiesList } from '@blueid/access-proto'
+import { BlueCredentialType, BlueIDAccess } from '@blueid/access-react-native'
 
 function DeviceItem({
     allDevices,
@@ -15,7 +15,23 @@ function DeviceItem({
 
     const tryOpenLock = useCallback(async () => {
         try {
-            await BlueIDAccess.runCommand('tryAccessDevice', deviceId)
+            const identitiesList: BlueIdentitiesList = await BlueIDAccess.runCommand(
+                'getIdentities',
+                null /* role */,
+                deviceId,
+            )
+
+            const { identities } = identitiesList
+
+            const identity = identities.find(ident =>
+                [
+                    BlueCredentialType.Master,
+                    BlueCredentialType.Emergency,
+                    BlueCredentialType.Regular,
+                ].includes(ident.role),
+            )
+
+            await BlueIDAccess.runCommand('tryAccessDevice', identity?.identityId, deviceId)
         } catch (e: any) {
             Alert.alert('Failed', e.message, [{ text: 'OK' }])
         }
