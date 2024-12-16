@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'
 import * as React from 'react'
 
-import Credentials from './Credentials'
+import Identities from './Identities'
 import Devices from './Devices'
 
 const Tab = createBottomTabNavigator()
@@ -12,7 +12,7 @@ export default function App() {
         <NavigationContainer>
             <Tab.Navigator>
                 <Tab.Screen name="Devices" component={Devices} />
-                <Tab.Screen name="Credentials" component={Credentials} />
+                <Tab.Screen name="Identities" component={Identities} />
             </Tab.Navigator>
         </NavigationContainer>
     )
