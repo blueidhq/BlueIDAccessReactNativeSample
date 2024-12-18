@@ -6,8 +6,7 @@ buildscript {
         minSdkVersion = 30
         compileSdkVersion = 35
         targetSdkVersion = 35
-        ndkVersion = "25.1.8937393"
-        kotlinVersion = "2.1.0"
+        ndkVersion = "26.2.11394342"
     }
     repositories {
         google()
@@ -17,7 +16,7 @@ buildscript {
     dependencies {
         classpath("com.android.tools.build:gradle")
         classpath("com.facebook.react:react-native-gradle-plugin")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin")
+        classpath ("org.jetbrains.kotlin:kotlin-gradle-plugin")
     }
 }
 
@@ -29,10 +28,3 @@ tasks.withType(KotlinCompile).configureEach {
     }
 }
 
-configurations.all {
-    resolutionStrategy.eachDependency { details ->
-        if (details.requested.group == 'org.jetbrains.kotlin') {
-            details.useVersion '2.1.0'
-        }
-    }
-}
