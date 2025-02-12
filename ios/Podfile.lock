@@ -1,13 +1,13 @@
 PODS:
-  - blueid-access-react-native (2.22.0):
-    - BlueIDAccessSDK (= 2.22.0)
+  - blueid-access-react-native (3.8.0):
+    - BlueIDAccessSDK (= 3.8.0)
     - RCT-Folly
     - RCTRequired
     - RCTTypeSafety
     - React-Codegen
     - React-Core
     - ReactCommon/turbomodule/core
-  - BlueIDAccessSDK (2.22.0):
+  - BlueIDAccessSDK (3.8.0):
     - iOSDFULibrary (= 4.15.0)
     - Sentry/HybridSDK (~> 8)
     - SwiftProtobuf (= 1.24.0)
@@ -1635,7 +1635,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - Sentry/HybridSDK (8.42.0)
+  - Sentry/HybridSDK (8.44.0)
   - SocketRocket (0.7.1)
   - SwiftProtobuf (1.24.0)
   - Yoga (0.0.0)
@@ -1857,8 +1857,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  blueid-access-react-native: d4e1a414a16dcca6b5c629df8678feb7bc66411a
-  BlueIDAccessSDK: b07e95df5c642fdba7ce7739a8e12c51eb307175
+  blueid-access-react-native: cf87df685ea97a94ed7e1ece4803767e02a3753e
+  BlueIDAccessSDK: da7c069ee0896e82bf68f3af08ccfadc5b0be45c
   boost: 1dca942403ed9342f98334bf4c3621f011aa7946
   DoubleConversion: f16ae600a246532c4020132d54af21d0ddb2a385
   FBLazyVector: 1bf99bb46c6af9a2712592e707347315f23947aa
@@ -1925,7 +1925,7 @@ SPEC CHECKSUMS:
   ReactCodegen: 8d7f9f05befdeb108948bbaa18d149b25a964f72
   ReactCommon: 858d61cce81635d57be89348568b603e838b3cac
   RNScreens: f493b156fe5de2434806b5a2c410800b2cd76c0e
-  Sentry: 38ed8bf38eab5812787274bf591e528074c19e02
+  Sentry: 0f9bc9adfc0b960e7f3bb5ec67e9a3d8193f3bdb
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
   SwiftProtobuf: bcfd2bc231cf9ae552cdc7c4e877bd3b41fe57b1
   Yoga: 7548e4449365bf0ef60db4aefe58abff37fcabec
