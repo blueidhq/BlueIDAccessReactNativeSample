@@ -4,6 +4,7 @@ import * as React from 'react'
 
 import Identities from './Identities'
 import Devices from './Devices'
+import NfcItem from './nfc'
 
 const Tab = createBottomTabNavigator()
 
@@ -13,6 +14,7 @@ export default function App() {
             <Tab.Navigator>
                 <Tab.Screen name="Devices" component={Devices} />
                 <Tab.Screen name="Identities" component={Identities} />
+                <Tab.Screen name="NFC Item" component={NfcItem} />
             </Tab.Navigator>
         </NavigationContainer>
     )
